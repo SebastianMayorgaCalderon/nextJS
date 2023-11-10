@@ -1,17 +1,20 @@
 import React from "react";
 import { withRouter } from "next/router";
-import { getFeaturedEvents } from "../../../dummy-data";
+import { getAllEvents } from "../../../dummy-data";
 import EventListComponent from "../../components/events/EventList";
+import EventSearch from "../../components/events/event-search";
 
-const EventList = ({ ...args }) => {
-  const featureEvents = getFeaturedEvents();
-
-  debugger;
+const EventList = ({ router }) => {
+  const featureEvents = getAllEvents();
+  const searchEventHandler = (year, month) => {
+    const path = `/events/${year}/${month}`;
+    router.push(path);
+  };
   return (
-    <div>
-      <h1>Event List</h1>
+    <>
+      <EventSearch onSearch={searchEventHandler} />
       <EventListComponent items={featureEvents} />
-    </div>
+    </>
   );
 };
 

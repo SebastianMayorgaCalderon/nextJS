@@ -1,12 +1,25 @@
 import React from "react";
 import { withRouter } from "next/router";
+import { getFilteredEvents } from "../../../dummy-data";
+import EventList from "../../components/events/EventList";
 
-const EventSlug = ({ ...args }) => {
+const EventSlug = ({ router }) => {
+  const filterData = router.query.path_data;
+  if (!filterData) return <p>loading</p>;
+
+  const filterEvents = getFilteredEvents({
+    year: +filterData[0],
+    month: +filterData[1],
+  });
+
   return (
     <div>
-      <h1>EventSlug</h1>
+      {filterEvents && filterEvents.length && (
+        <EventList items={filterEvents} />
+      )}
+      {filterEvents.length === 0 && <p>no reulst bru</p>}
     </div>
   );
 };
 
-export default EventSlug;
+export default withRouter(EventSlug);
